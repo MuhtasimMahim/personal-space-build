@@ -9,6 +9,7 @@ import ConnectSection from "@/components/ConnectSection";
 import ExperienceSection from "@/components/ExperienceSection";
 import SkillsSection from "@/components/SkillsSection";
 import ProgrammerIcon from "@/components/ProgrammerIcon";
+import ProjectShowcase from "@/components/ProjectShowcase";
 
 const Index = () => {
   return (
@@ -93,8 +94,13 @@ const Index = () => {
           </section>
 
           {/* Skills Section */}
-          <section className="py-10 mb-10">
+          <section className="py-10">
             <SkillsSection />
+          </section>
+          
+          {/* Project Showcase Section */}
+          <section className="py-10 mb-10">
+            <ProjectShowcase />
           </section>
         </div>
       </div>
