@@ -1,7 +1,10 @@
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
+  const location = useLocation();
+  const path = location.pathname;
+  
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 bg-[#0c0f16]/80 backdrop-blur-md">
       <div className="ml-[172px]">
@@ -13,10 +16,10 @@ const Navbar = () => {
       </div>
       
       <nav className="flex items-center gap-8">
-        <Link to="/" className="text-cyan hover:opacity-80 transition-colors">
+        <Link to="/" className={`${path === '/' ? 'text-cyan' : 'text-white hover:text-cyan'} transition-colors`}>
           Home
         </Link>
-        <Link to="/blog" className="text-white hover:text-cyan transition-colors">
+        <Link to="/blog" className={`${path.includes('/blog') ? 'text-cyan' : 'text-white hover:text-cyan'} transition-colors`}>
           Blog
         </Link>
         <Link to="/featured" className="text-white hover:text-cyan transition-colors">
