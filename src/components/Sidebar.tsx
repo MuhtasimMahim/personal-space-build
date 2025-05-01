@@ -1,7 +1,15 @@
 
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Sidebar = () => {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return null; // Don't render sidebar on mobile
+  }
+
   return (
     <div className="fixed left-0 top-0 h-screen w-[172px] bg-[#13151c] border-r border-[#2a2a2a] flex flex-col justify-between p-4">
       <div>

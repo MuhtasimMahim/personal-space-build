@@ -10,14 +10,17 @@ import ExperienceSection from "@/components/ExperienceSection";
 import SkillsSection from "@/components/SkillsSection";
 import ProgrammerIcon from "@/components/ProgrammerIcon";
 import ProjectShowcase from "@/components/ProjectShowcase";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Index = () => {
+  const isMobile = useIsMobile();
+  
   return (
     <div className="min-h-screen bg-[#0c0f16] text-white">
       <Sidebar />
       <Navbar />
       
-      <div className="ml-[172px] pt-20 px-6 md:px-10 lg:px-16">
+      <div className={`${isMobile ? '' : 'ml-[172px]'} pt-20 px-6 md:px-10 lg:px-16`}>
         <div className="max-w-7xl mx-auto">
           {/* Hero Section */}
           <section className="py-10">
