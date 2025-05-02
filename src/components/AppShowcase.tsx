@@ -36,16 +36,10 @@ const AppShowcase = () => {
       </div>
       
       <div className="flex justify-center items-center relative">
-        {/* Phone frame */}
+        {/* Screenshots carousel inside the phone frame */}
         <div className="relative max-w-[300px] mx-auto">
-          <img 
-            src="/lovable-uploads/fc63a100-e216-4543-91bd-2c95a8f31baf.png" 
-            alt="Phone frame" 
-            className="w-full h-auto relative z-10"
-          />
-          
-          {/* Screenshots carousel inside the phone frame */}
-          <div className="absolute top-[1.5%] bottom-[1.5%] left-[4%] right-[4%] z-0 overflow-hidden rounded-[25px] bg-white">
+          {/* Screenshots container - positioned below the frame in z-index but visible through frame's transparent area */}
+          <div className="absolute top-[1.5%] bottom-[1.5%] left-[4%] right-[4%] z-10 overflow-hidden rounded-[25px] bg-white">
             <Carousel className="w-full h-full" 
               opts={{
                 align: "center",
@@ -72,6 +66,13 @@ const AppShowcase = () => {
               <CarouselNext className="absolute right-[-40px]" />
             </Carousel>
           </div>
+          
+          {/* Phone frame - positioned on top but with transparent middle */}
+          <img 
+            src="/lovable-uploads/fc63a100-e216-4543-91bd-2c95a8f31baf.png" 
+            alt="Phone frame" 
+            className="w-full h-auto relative z-20"
+          />
         </div>
       </div>
       
