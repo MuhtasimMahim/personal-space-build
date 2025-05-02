@@ -10,6 +10,7 @@ import ExperienceSection from "@/components/ExperienceSection";
 import SkillsSection from "@/components/SkillsSection";
 import ProgrammerIcon from "@/components/ProgrammerIcon";
 import ProjectShowcase from "@/components/ProjectShowcase";
+import AppShowcase from "@/components/AppShowcase";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const Index = () => {
@@ -67,6 +68,11 @@ const Index = () => {
             <ConnectSection />
           </section>
 
+          {/* App Showcase Section */}
+          <section className="py-10">
+            <AppShowcase />
+          </section>
+          
           {/* Categories Section */}
           <section className="py-10">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
