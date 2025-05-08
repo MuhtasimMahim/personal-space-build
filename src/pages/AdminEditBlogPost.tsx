@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useBlogStore, BlogPost } from "@/store/blogStore";
@@ -94,6 +95,7 @@ const AdminEditBlogPost = () => {
 
     // Generate excerpt from content
     const excerpt = generateExcerpt(content);
+    const postStatus = isPublished ? "published" as const : "draft" as const;
 
     try {
       if (isEditMode && existingPost) {
@@ -103,7 +105,7 @@ const AdminEditBlogPost = () => {
           content,
           imageUrl,
           excerpt,
-          status: isPublished ? "published" : "draft"
+          status: postStatus
         });
         navigate("/admin/posts");
       } else {
@@ -113,7 +115,7 @@ const AdminEditBlogPost = () => {
           content,
           imageUrl,
           excerpt,
-          status: isPublished ? "published" : "draft"
+          status: postStatus
         });
         navigate("/admin/posts");
       }

@@ -43,7 +43,7 @@ const BlogPost = () => {
             setPost(foundPost);
           } else {
             // Fallback to hardcoded posts if not found
-            const fallbackPosts = [
+            const fallbackPosts: BlogPostType[] = [
               {
                 id: "exploring-korea",
                 title: "Exploring Korea: A Journey Through Tradition, Tech, and Taste",
@@ -53,7 +53,7 @@ const BlogPost = () => {
                 comments: 0,
                 content: "Day 1: Arrival In Seoul We reached Incheon Airport at 2 pm. Our mentor, Min Jae Kim, welcomed us warmly. The airport is strategically positioned...",
                 excerpt: "Day 1: Arrival In Seoul We reached Incheon Airport at 2 pm. Our mentor, Min Jae Kim, welcomed us warmly. The airport is strategically positioned...",
-                status: "published"
+                status: "published" as "published" | "draft"
               },
               {
                 id: "dubai-robotics-competition",
@@ -64,7 +64,7 @@ const BlogPost = () => {
                 comments: 0,
                 content: "About the Contest Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.Lorem ipsum dolor sit amet,",
                 excerpt: "About the Contest Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.Lorem ipsum dolor sit amet,",
-                status: "published"
+                status: "published" as "published" | "draft"
               },
               {
                 id: "wordpress-site-development",
@@ -75,7 +75,7 @@ const BlogPost = () => {
                 comments: 0,
                 content: "Add Your Heading Text Here Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
                 excerpt: "Add Your Heading Text Here Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-                status: "published"
+                status: "published" as "published" | "draft"
               }
             ];
             
@@ -127,13 +127,13 @@ const BlogPost = () => {
       <div className={`${isPreview ? 'pt-12' : isMobile ? 'pt-20' : 'pt-20 ml-[172px]'} px-6 md:px-10 lg:px-16`}>
         <div className="max-w-4xl mx-auto">
           <article className="py-10">
-            <h1 className="text-cyan text-4xl md:text-5xl font-bold mb-6">{post.title}</h1>
+            <h1 className="text-cyan text-4xl md:text-5xl font-bold mb-6">{post?.title}</h1>
             
             <div className="text-[#888888] text-sm mb-8">
-              {post.date} • {post.status === 'draft' ? "(Draft)" : ""}
+              {post?.date} • {post?.status === 'draft' ? "(Draft)" : ""}
             </div>
             
-            {post.imageUrl && (
+            {post?.imageUrl && (
               <img 
                 src={post.imageUrl} 
                 alt={post.title} 
@@ -143,7 +143,7 @@ const BlogPost = () => {
             
             <div 
               className="prose prose-invert max-w-none prose-headings:text-cyan prose-a:text-cyan hover:prose-a:text-cyan/80"
-              dangerouslySetInnerHTML={{ __html: post.content }}
+              dangerouslySetInnerHTML={{ __html: post?.content || "" }}
             />
           </article>
         </div>

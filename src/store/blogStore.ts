@@ -11,6 +11,7 @@ export interface BlogPost {
   date: string;
   status: 'draft' | 'published';
   excerpt: string;
+  comments?: number;
 }
 
 // Initial data from the existing blog
@@ -96,7 +97,7 @@ export const useBlogStore = () => {
   const updatePost = (id: string, updatedPost: Partial<BlogPost>) => {
     setPosts((currentPosts) => 
       currentPosts.map((post) => 
-        post.id === id ? { ...post, ...updatedPost } : post
+        post.id === id ? { ...post, ...updatedPost, status: updatedPost.status as 'draft' | 'published' } : post
       )
     );
     toast.success(`Post "${updatedPost.title || ''}" updated`);
