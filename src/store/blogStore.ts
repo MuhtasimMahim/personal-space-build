@@ -97,7 +97,7 @@ export const useBlogStore = () => {
   const updatePost = (id: string, updatedPost: Partial<BlogPost>) => {
     setPosts((currentPosts) => 
       currentPosts.map((post) => 
-        post.id === id ? { ...post, ...updatedPost, status: updatedPost.status as 'draft' | 'published' } : post
+        post.id === id ? { ...post, ...updatedPost } : post
       )
     );
     toast.success(`Post "${updatedPost.title || ''}" updated`);

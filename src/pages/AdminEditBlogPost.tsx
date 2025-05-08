@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent } from "@/components/ui/card";
-import { EyeIcon, PencilIcon, ImageIcon } from "lucide-react";
+import { Image as ImageIcon, Eye as EyeIcon, Pencil as PencilIcon } from "lucide-react";
 
 const AdminEditBlogPost = () => {
   const { id } = useParams<{ id: string }>();
@@ -138,7 +138,7 @@ const AdminEditBlogPost = () => {
         month: 'long',
         day: 'numeric',
       }),
-      status: "draft",
+      status: isPublished ? "published" : "draft",
       excerpt: generateExcerpt(content)
     };
 

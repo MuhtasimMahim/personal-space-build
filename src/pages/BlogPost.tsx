@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -50,10 +49,9 @@ const BlogPost = () => {
                 slug: "exploring-korea",
                 imageUrl: "/lovable-uploads/9e702ff5-79a9-4f0a-87cc-6321ce202520.png",
                 date: "August 25, 2024",
-                comments: 0,
+                status: "published" as const,
                 content: "Day 1: Arrival In Seoul We reached Incheon Airport at 2 pm. Our mentor, Min Jae Kim, welcomed us warmly. The airport is strategically positioned...",
-                excerpt: "Day 1: Arrival In Seoul We reached Incheon Airport at 2 pm. Our mentor, Min Jae Kim, welcomed us warmly. The airport is strategically positioned...",
-                status: "published" as "published" | "draft"
+                excerpt: "Day 1: Arrival In Seoul We reached Incheon Airport at 2 pm. Our mentor, Min Jae Kim, welcomed us warmly. The airport is strategically positioned..."
               },
               {
                 id: "dubai-robotics-competition",
@@ -61,10 +59,9 @@ const BlogPost = () => {
                 slug: "dubai-robotics-competition",
                 imageUrl: "/lovable-uploads/8becc6bf-0cf8-454b-9262-3189afaa46a4.png",
                 date: "June 17, 2024",
-                comments: 0,
+                status: "published" as const,
                 content: "About the Contest Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.Lorem ipsum dolor sit amet,",
-                excerpt: "About the Contest Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.Lorem ipsum dolor sit amet,",
-                status: "published" as "published" | "draft"
+                excerpt: "About the Contest Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.Lorem ipsum dolor sit amet,"
               },
               {
                 id: "wordpress-site-development",
@@ -72,10 +69,9 @@ const BlogPost = () => {
                 slug: "wordpress-site-development",
                 imageUrl: "/lovable-uploads/ab3b8695-e4f7-4e9e-8b80-951baa334acb.png",
                 date: "March 16, 2024",
-                comments: 0,
+                status: "published" as const,
                 content: "Add Your Heading Text Here Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-                excerpt: "Add Your Heading Text Here Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-                status: "published" as "published" | "draft"
+                excerpt: "Add Your Heading Text Here Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
               }
             ];
             
