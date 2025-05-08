@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useBlogStore, BlogPost } from "@/store/blogStore";
@@ -9,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent } from "@/components/ui/card";
-import { EyeIcon } from "lucide-react";
+import { EyeIcon, PencilIcon, ImageIcon } from "lucide-react";
 
 const AdminEditBlogPost = () => {
   const { id } = useParams<{ id: string }>();
