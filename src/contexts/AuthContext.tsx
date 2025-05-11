@@ -1,15 +1,14 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { toast } from '@/components/ui/sonner';
 
-// Define admin user credentials - in a real app, this would be in a database
-const ADMIN_EMAIL = "admin@example.com";
-const ADMIN_PASSWORD = "admin123"; // This is just for demonstration
+// Get admin credentials from environment variables
+const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || "admin@example.com";
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || "admin123";
 
 interface AuthContextType {
   isAuthenticated: boolean;
   user: { email: string } | null;
-  login: (email: string, password: string) => boolean;
+  login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -25,26 +24,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
-        setIsAuthenticated(true);
+        if (parsedUser && typeof parsedUser.email === 'string') {
+          setUser(parsedUser);
+          setIsAuthenticated(true);
+        } else {
+          throw new Error('Invalid user data format');
+        }
       } catch (error) {
         console.error('Error parsing stored user:', error);
         localStorage.removeItem('adminUser');
+        toast.error('Session expired. Please login again.');
       }
     }
   }, []);
 
-  const login = (email: string, password: string): boolean => {
-    // Simple authentication logic - in a real app, this would validate against a database
-    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-      const userData = { email };
-      setUser(userData);
-      setIsAuthenticated(true);
-      localStorage.setItem('adminUser', JSON.stringify(userData));
-      toast.success('Login successful');
-      return true;
-    } else {
-      toast.error('Invalid email or password');
+  const login = async (email: string, password: string): Promise<boolean> => {
+    try {
+      // Simple authentication logic - in a real app, this would validate against a database
+      if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+        const userData = { email };
+        setUser(userData);
+        setIsAuthenticated(true);
+        localStorage.setItem('adminUser', JSON.stringify(userData));
+        toast.success('Login successful');
+        return true;
+      } else {
+        toast.error('Invalid email or password');
+        return false;
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      toast.error('An error occurred during login');
       return false;
     }
   };

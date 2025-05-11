@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { toast } from '@/components/ui/sonner';
 
@@ -58,10 +57,34 @@ export const useBlogStore = () => {
     const storedPosts = localStorage.getItem('blogPosts');
     if (storedPosts) {
       try {
-        setPosts(JSON.parse(storedPosts));
+        const parsedPosts = JSON.parse(storedPosts);
+        // Validate that parsedPosts is an array
+        if (Array.isArray(parsedPosts)) {
+          // Validate each post has required fields
+          const validPosts = parsedPosts.filter(post => 
+            post && 
+            typeof post.id === 'string' &&
+            typeof post.title === 'string' &&
+            typeof post.slug === 'string' &&
+            typeof post.content === 'string' &&
+            typeof post.date === 'string' &&
+            typeof post.status === 'string' &&
+            ['published', 'draft'].includes(post.status)
+          );
+          
+          if (validPosts.length > 0) {
+            setPosts(validPosts);
+          } else {
+            throw new Error('No valid posts found in storage');
+          }
+        } else {
+          throw new Error('Invalid posts data format');
+        }
       } catch (error) {
         console.error('Error loading blog posts:', error);
+        localStorage.removeItem('blogPosts');
         setPosts(initialBlogPosts);
+        toast.error('Error loading saved posts. Using default posts instead.');
       }
     } else {
       setPosts(initialBlogPosts);
@@ -72,46 +95,74 @@ export const useBlogStore = () => {
   // Save to localStorage whenever posts change
   useEffect(() => {
     if (isLoaded) {
-      localStorage.setItem('blogPosts', JSON.stringify(posts));
+      try {
+        localStorage.setItem('blogPosts', JSON.stringify(posts));
+      } catch (error) {
+        console.error('Error saving blog posts:', error);
+        toast.error('Failed to save posts to storage');
+      }
     }
   }, [posts, isLoaded]);
 
   // Function to add a new post
   const addPost = (post: Omit<BlogPost, 'id' | 'date'>) => {
-    const newPost: BlogPost = {
-      ...post,
-      id: post.slug,
-      date: new Date().toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      }),
-    };
+    try {
+      const newPost: BlogPost = {
+        ...post,
+        id: post.slug,
+        date: new Date().toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        }),
+      };
 
-    setPosts((currentPosts) => [...currentPosts, newPost]);
-    toast.success(`Post "${post.title}" ${post.status === 'published' ? 'published' : 'saved as draft'}`);
-    return newPost;
+      setPosts((currentPosts) => [...currentPosts, newPost]);
+      toast.success(`Post "${post.title}" ${post.status === 'published' ? 'published' : 'saved as draft'}`);
+      return newPost;
+    } catch (error) {
+      console.error('Error adding post:', error);
+      toast.error('Failed to add post');
+      throw error;
+    }
   };
 
   // Function to update an existing post
   const updatePost = (id: string, updatedPost: Partial<BlogPost>) => {
-    setPosts((currentPosts) => 
-      currentPosts.map((post) => 
-        post.id === id ? { ...post, ...updatedPost } : post
-      )
-    );
-    toast.success(`Post "${updatedPost.title || ''}" updated`);
+    try {
+      setPosts((currentPosts) => 
+        currentPosts.map((post) => 
+          post.id === id ? { ...post, ...updatedPost } : post
+        )
+      );
+      toast.success(`Post "${updatedPost.title || ''}" updated`);
+    } catch (error) {
+      console.error('Error updating post:', error);
+      toast.error('Failed to update post');
+      throw error;
+    }
   };
 
   // Function to delete a post
   const deletePost = (id: string) => {
-    setPosts((currentPosts) => currentPosts.filter((post) => post.id !== id));
-    toast.success('Post deleted');
+    try {
+      setPosts((currentPosts) => currentPosts.filter((post) => post.id !== id));
+      toast.success('Post deleted');
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      toast.error('Failed to delete post');
+      throw error;
+    }
   };
 
   // Function to get a single post
   const getPost = (id: string): BlogPost | undefined => {
-    return posts.find((post) => post.id === id);
+    try {
+      return posts.find((post) => post.id === id);
+    } catch (error) {
+      console.error('Error getting post:', error);
+      return undefined;
+    }
   };
 
   // Generate excerpt from content

@@ -23,64 +23,76 @@ const BlogPost = () => {
         if (isPreview) {
           const previewData = localStorage.getItem('previewPost');
           if (previewData) {
-            const previewPost = JSON.parse(previewData);
-            if (previewPost.id === postId) {
-              setPost(previewPost);
-              setIsLoading(false);
-              return;
+            try {
+              const previewPost = JSON.parse(previewData);
+              if (previewPost.id === postId) {
+                setPost(previewPost);
+                setIsLoading(false);
+                return;
+              }
+            } catch (error) {
+              console.error('Error parsing preview data:', error);
+              localStorage.removeItem('previewPost');
             }
           }
         }
         
-        // Otherwise load from the blog posts in localStorage
+        // Load from the blog posts in localStorage
         const storedPosts = localStorage.getItem('blogPosts');
         if (storedPosts) {
-          const allPosts: BlogPostType[] = JSON.parse(storedPosts);
-          const foundPost = allPosts.find(p => p.id === postId);
-          
-          if (foundPost) {
-            setPost(foundPost);
-          } else {
-            // Fallback to hardcoded posts if not found
-            const fallbackPosts: BlogPostType[] = [
-              {
-                id: "exploring-korea",
-                title: "Exploring Korea: A Journey Through Tradition, Tech, and Taste",
-                slug: "exploring-korea",
-                imageUrl: "/lovable-uploads/9e702ff5-79a9-4f0a-87cc-6321ce202520.png",
-                date: "August 25, 2024",
-                status: "published" as const,
-                content: "Day 1: Arrival In Seoul We reached Incheon Airport at 2 pm. Our mentor, Min Jae Kim, welcomed us warmly. The airport is strategically positioned...",
-                excerpt: "Day 1: Arrival In Seoul We reached Incheon Airport at 2 pm. Our mentor, Min Jae Kim, welcomed us warmly. The airport is strategically positioned..."
-              },
-              {
-                id: "dubai-robotics-competition",
-                title: "From Circuitry to Souks: My Dubai Robotics Competition Experience",
-                slug: "dubai-robotics-competition",
-                imageUrl: "/lovable-uploads/8becc6bf-0cf8-454b-9262-3189afaa46a4.png",
-                date: "June 17, 2024",
-                status: "published" as const,
-                content: "About the Contest Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.Lorem ipsum dolor sit amet,",
-                excerpt: "About the Contest Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.Lorem ipsum dolor sit amet,"
-              },
-              {
-                id: "wordpress-site-development",
-                title: "WordPress Site Development with techy theme",
-                slug: "wordpress-site-development",
-                imageUrl: "/lovable-uploads/ab3b8695-e4f7-4e9e-8b80-951baa334acb.png",
-                date: "March 16, 2024",
-                status: "published" as const,
-                content: "Add Your Heading Text Here Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-                excerpt: "Add Your Heading Text Here Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
-              }
-            ];
-            
-            const fallbackPost = fallbackPosts.find(p => p.id === postId);
-            setPost(fallbackPost || null);
+          try {
+            const posts = JSON.parse(storedPosts);
+            const foundPost = posts.find((p: BlogPostType) => p.id === postId);
+            if (foundPost) {
+              setPost(foundPost);
+              setIsLoading(false);
+              return;
+            }
+          } catch (error) {
+            console.error('Error parsing stored posts:', error);
+            localStorage.removeItem('blogPosts');
           }
         }
+        
+        // If no post found in localStorage, try fallback posts
+        const fallbackPosts: BlogPostType[] = [
+          {
+            id: "exploring-korea",
+            title: "Exploring Korea: A Journey Through Tradition, Tech, and Taste",
+            slug: "exploring-korea",
+            imageUrl: "/lovable-uploads/9e702ff5-79a9-4f0a-87cc-6321ce202520.png",
+            date: "August 25, 2024",
+            status: "published" as const,
+            content: "Day 1: Arrival In Seoul We reached Incheon Airport at 2 pm. Our mentor, Min Jae Kim, welcomed us warmly. The airport is strategically positioned...",
+            excerpt: "Day 1: Arrival In Seoul We reached Incheon Airport at 2 pm. Our mentor, Min Jae Kim, welcomed us warmly. The airport is strategically positioned..."
+          },
+          {
+            id: "dubai-robotics-competition",
+            title: "From Circuitry to Souks: My Dubai Robotics Competition Experience",
+            slug: "dubai-robotics-competition",
+            imageUrl: "/lovable-uploads/8becc6bf-0cf8-454b-9262-3189afaa46a4.png",
+            date: "June 17, 2024",
+            status: "published" as const,
+            content: "About the Contest Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.Lorem ipsum dolor sit amet,",
+            excerpt: "About the Contest Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.Lorem ipsum dolor sit amet,"
+          },
+          {
+            id: "wordpress-site-development",
+            title: "WordPress Site Development with techy theme",
+            slug: "wordpress-site-development",
+            imageUrl: "/lovable-uploads/ab3b8695-e4f7-4e9e-8b80-951baa334acb.png",
+            date: "March 16, 2024",
+            status: "published" as const,
+            content: "Add Your Heading Text Here Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
+            excerpt: "Add Your Heading Text Here Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
+          }
+        ];
+        
+        const fallbackPost = fallbackPosts.find(p => p.id === postId);
+        setPost(fallbackPost || null);
       } catch (error) {
         console.error('Error loading blog post:', error);
+        setPost(null);
       } finally {
         setIsLoading(false);
       }
