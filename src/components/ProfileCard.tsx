@@ -1,4 +1,3 @@
-
 const ProfileCard = () => {
   return (
     <div className="glass-card p-8 flex flex-col md:flex-row gap-8 animate-fade-in">
@@ -13,7 +12,7 @@ const ProfileCard = () => {
         <div className="text-zinc-400">Programmer</div>
         <h1 className="text-cyan text-4xl md:text-5xl font-bold mb-4">
           Muhtasim<br />
-          Zaman Mahim
+          Mahim
         </h1>
         <p className="text-white mb-2">Web Developer, Android App</p>
         <p className="text-white mb-2">Developer, Competitive</p>
